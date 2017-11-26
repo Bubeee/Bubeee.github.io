@@ -1,0 +1,28 @@
+.header{
+  color: darkred;
+  font-weight: bold;
+  font-size: 48px;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.channel-item{
+  border: 2px solid rgb(58, 44, 148);
+  background: rgb(210, 227, 228);
+  padding: 20px;
+  display: block;
+  font-weight: bold;
+  font-size: 30px;
+  margin: 15px auto;
+  text-align: center;
+  width: 75%;
+}
+
+.news-item{
+  
+}

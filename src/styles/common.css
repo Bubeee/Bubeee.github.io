@@ -1,7 +1,11 @@
-.header{
+* {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.header {
   color: darkred;
   font-weight: bold;
-  font-size: 48px;
+  font-size: 40px;
   text-align: center;
 }
 
@@ -9,9 +13,14 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  align-items: center;
 }
 
-.channel-item{
+.item {
+  border-radius: 24px;
+}
+
+.channel-item {
   border: 2px solid rgb(58, 44, 148);
   background: rgb(210, 227, 228);
   padding: 20px;
@@ -23,6 +32,66 @@
   width: 75%;
 }
 
-.news-item{
-  
+.channel-item:hover {
+  background-color: rgb(174, 244, 247);
+  cursor: pointer;
+}
+
+.news-item {
+  font-weight: normal;
+  border: 1px solid rgb(60, 126, 60);
+  background: rgb(118, 197, 131);
+  margin: 20px 50px;
+  padding: 10px 0;
+
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  flex-direction: row;
+}
+
+.news-item:hover {
+  background-color: rgb(24, 211, 40);
+  cursor: pointer;
+}
+
+.news-title{
+  margin: 5px 10px;
+  word-wrap: break-word;
+}
+
+.news-paragraph {
+  padding: 0 15px;
+  width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.news-image {
+  width: 25%;
+  height: 25%;
+  margin: 30px;
+}
+
+.fade-out {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s linear 300ms, opacity 300ms;
+}
+
+.fade-in {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s linear 0s, opacity 300ms;
+}
+
+.news-item.closed {
+	max-height: 0;
+}
+
+
+.attribution-link{
+  margin: 0 auto;
+  text-align: center;
 }

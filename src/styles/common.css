@@ -2,6 +2,10 @@
   font-family: "Times New Roman", Times, serif;
 }
 
+html{
+  background: linear-gradient(to right, rgb(215, 198, 55) , rgb(146, 198, 55));
+}
+
 .header {
   color: darkred;
   font-weight: bold;

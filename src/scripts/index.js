@@ -30,15 +30,15 @@ function getChannels(selector) {
 }
 
 function getNews(channelId) {
-  let currentBlock = document.querySelector(`#${channelId}`);
+  let currentChannelBlock = document.querySelector(`#${channelId}`);
 
-  fetchNews(currentBlock, channelId);
+  fetchNews(currentChannelBlock, channelId);
 }
 
-function fetchNews(currentBlock, channelId) {
-  if (currentBlock.hasChildNodes()) {
-    while (currentBlock.firstChild) {
-      currentBlock.removeChild(currentBlock.firstChild);
+function fetchNews(currentChannelBlock, channelId) {
+  if (currentChannelBlock.hasChildNodes()) {
+    while (currentChannelBlock.firstChild) {
+      currentChannelBlock.removeChild(currentChannelBlock.firstChild);
     }
   } else {
     fetch(
@@ -53,9 +53,12 @@ function fetchNews(currentBlock, channelId) {
         if (response.ok === true) {
           response.json().then(data => {
             data.articles.forEach(element => {
-              createNewsBlock(currentBlock, element);
+              createNewsBlock(currentChannelBlock, element);
             });
           });
+        }
+        else{
+          createErrorBlock(currentChannelBlock);
         }
       })
       .catch(function(params) {
@@ -64,10 +67,11 @@ function fetchNews(currentBlock, channelId) {
   }
 }
 
-function createNewsBlock(currentBlock, element) {
+function createNewsBlock(currentChannelBlock, element) {
   let newElement = document.createElement("div");
   newElement.classList.add("item");
   newElement.classList.add("news-item");
+  newElement.onclick = () => event.stopPropagation();
 
   let title = document.createElement("a");
   title.innerHTML = element.title;
@@ -79,13 +83,27 @@ function createNewsBlock(currentBlock, element) {
   paragraph.classList.add("news-paragraph");
 
   let image = document.createElement("img");
-  image.setAttribute("src", element.urlToImage);
+  image.setAttribute('src', element.urlToImage);
+  image.onclick = () => {
+    event.stopPropagation();
+    location.href = element.url;
+  };
+
   image.classList.add("news-image");
 
   newElement.appendChild(title);
   newElement.appendChild(paragraph);
   newElement.appendChild(image);
-  currentBlock.appendChild(newElement);
+  currentChannelBlock.appendChild(newElement);
+}
+
+function createErrorBlock(currentChannelBlock) {
+  let newElement = document.createElement("div");
+  newElement.classList.add("item");
+  newElement.classList.add("news-item-error");
+  newElement.innerHTML = 'Sorry, there is no news for this channel or some error is occured. Try again later.'
+  
+  currentChannelBlock.appendChild(newElement);
 }
 
 getChannels(".container");

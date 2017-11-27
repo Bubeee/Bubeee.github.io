@@ -53,7 +53,7 @@
 
 .news-item:hover {
   background-color: rgb(24, 211, 40);
-  cursor: pointer;
+  cursor: default;
 }
 
 .news-title{
@@ -74,22 +74,13 @@
   margin: 30px;
 }
 
-.fade-out {
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s linear 300ms, opacity 300ms;
+.news-image:hover{
+  cursor: pointer;
 }
 
-.fade-in {
-  visibility: visible;
-  opacity: 1;
-  transition: visibility 0s linear 0s, opacity 300ms;
+.news-item-error{
+  color: red;
 }
-
-.news-item.closed {
-	max-height: 0;
-}
-
 
 .attribution-link{
   margin: 0 auto;

@@ -2,8 +2,8 @@
   font-family: "Times New Roman", Times, serif;
 }
 
-html{
-  background: linear-gradient(to right, rgb(215, 198, 55) , rgb(146, 198, 55));
+html {
+  background: linear-gradient(to right, #96deda, #50c9c3);
 }
 
 .header {
@@ -26,7 +26,7 @@ html{
 
 .channel-item {
   border: 2px solid rgb(58, 44, 148);
-  background: rgb(210, 227, 228);
+  background: linear-gradient(to bottom, #ffecd2, #fcb69f);
   padding: 20px;
   display: block;
   font-weight: bold;
@@ -60,7 +60,7 @@ html{
   cursor: default;
 }
 
-.news-title{
+.news-title {
   margin: 5px 10px;
   word-wrap: break-word;
 }
@@ -78,15 +78,15 @@ html{
   margin: 30px;
 }
 
-.news-image:hover{
+.news-image:hover {
   cursor: pointer;
 }
 
-.news-item-error{
+.news-item-error {
   color: red;
 }
 
-.attribution-link{
+.attribution-link {
   margin: 0 auto;
   text-align: center;
 }

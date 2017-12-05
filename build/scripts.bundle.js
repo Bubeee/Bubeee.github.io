@@ -1,23 +1,27 @@
-import { NewsService } from "news-service.js";
+"use strict";
+
+var _newsService = require("news-service.js");
 
 function createNewsBlock(currentChannelBlock, element) {
-  let newElement = document.createElement("div");
+  var newElement = document.createElement("div");
   newElement.classList.add("item");
   newElement.classList.add("news-item");
-  newElement.onclick = () => event.stopPropagation();
+  newElement.onclick = function () {
+    return event.stopPropagation();
+  };
 
-  let title = document.createElement("a");
+  var title = document.createElement("a");
   title.innerHTML = element.title;
   title.href = element.url;
   title.classList.add("news-title");
 
-  let paragraph = document.createElement("p");
+  var paragraph = document.createElement("p");
   paragraph.innerHTML = element.description;
   paragraph.classList.add("news-paragraph");
 
-  let image = document.createElement("img");
+  var image = document.createElement("img");
   image.setAttribute('src', element.urlToImage);
-  image.onclick = () => {
+  image.onclick = function () {
     event.stopPropagation();
     location.href = element.url;
   };
@@ -31,13 +35,13 @@ function createNewsBlock(currentChannelBlock, element) {
 }
 
 function createErrorBlock(currentChannelBlock) {
-  let newElement = document.createElement("div");
+  var newElement = document.createElement("div");
   newElement.classList.add("item");
   newElement.classList.add("news-item-error");
-  newElement.innerHTML = 'Sorry, there is no news for this channel or some error is occured. Try again later.'
-  
+  newElement.innerHTML = 'Sorry, there is no news for this channel or some error is occured. Try again later.';
+
   currentChannelBlock.appendChild(newElement);
 }
 
-let newsService = new NewsService();
+var newsService = new _newsService.NewsService();
 newsService.getChannels(".container");

@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "babel-loader": "^7.1.2",
+    "babel-polyfill": "^6.26.0",
     "es6-promise": "^4.1.1",
     "isomorphic-fetch": "^2.2.1",
     "webpack": "^3.10.0"

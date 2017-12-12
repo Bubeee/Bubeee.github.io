@@ -9579,10 +9579,34 @@ module.exports = function (regExp, replace) {
 
 __webpack_require__(329);
 
-var _newsService = __webpack_require__(331);
+var _newsApiService = __webpack_require__(331);
 
-var newsService = new _newsService.NewsService();
-newsService.getChannels('.container');
+var _domService = __webpack_require__(332);
+
+function init(containerSelector) {
+  var newsService = new _newsApiService.NewsApiService();
+  var domService = new _domService.DomService();
+
+  var channels = newsService.getChannels(function (element) {
+    domService.createChannelItemBlock('#container', element, onChannelClickEvent);
+  });
+}
+
+function onChannelClickEvent(event, element) {
+  var currentChannelBlock = document.querySelector('#channel-' + element.id);
+
+  if (currentChannelBlock.hasChildNodes()) {
+    while (currentChannelBlock.firstChild) {
+      currentChannelBlock.removeChild(currentChannelBlock.firstChild);
+    }
+  } else {
+    var newsService = new _newsApiService.NewsApiService();
+    var domService = new _domService.DomService();
+    var news = newsService.getNews(element.id, domService.createNewsBlock, domService.createErrorBlock);
+  }
+}
+
+init('#container');
 
 /***/ }),
 /* 329 */
@@ -10081,81 +10105,93 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var newsApiKey = 'd59e89ef28f2495496fadd4aceef0a34';
 var newsApiBaseAddress = 'https://newsapi.org/';
 
-var NewsService = exports.NewsService = function () {
-  function NewsService() {
-    _classCallCheck(this, NewsService);
+var NewsApiService = exports.NewsApiService = function () {
+  function NewsApiService() {
+    _classCallCheck(this, NewsApiService);
   }
 
-  _createClass(NewsService, [{
+  _createClass(NewsApiService, [{
     key: 'getChannels',
-    value: function getChannels(selector) {
-      var _this = this;
-
+    value: function getChannels(callback) {
       fetch(newsApiBaseAddress + '/v2/sources?apiKey=' + newsApiKey, {
         method: 'get'
       }).then(function (response) {
         response.json().then(function (data) {
-          var infoContainer = document.querySelector(selector);
-
           data.sources.forEach(function (element) {
-            var subContainer = document.createElement('div');
-            subContainer.classList.add('item');
-            subContainer.classList.add('channel-item');
-            subContainer.onclick = function (event) {
-              return _this.getNews(element.id);
-            };
-
-            var channelTitle = document.createElement('p');
-            channelTitle.innerText = element.name;
-
-            var newElement = document.createElement('div');
-            newElement.id = element.id;
-
-            subContainer.appendChild(channelTitle);
-            subContainer.appendChild(newElement);
-
-            infoContainer.appendChild(subContainer);
+            return callback(element);
           });
         });
       });
     }
   }, {
     key: 'getNews',
-    value: function getNews(channelId) {
-      var currentChannelBlock = document.querySelector('#' + channelId);
-
-      this.fetchNews(currentChannelBlock, channelId);
-    }
-  }, {
-    key: 'fetchNews',
-    value: function fetchNews(currentChannelBlock, channelId) {
-      var _this2 = this;
-
-      if (currentChannelBlock.hasChildNodes()) {
-        while (currentChannelBlock.firstChild) {
-          currentChannelBlock.removeChild(currentChannelBlock.firstChild);
-        }
-      } else {
-        fetch(newsApiBaseAddress + '/v1/articles?source=' + channelId + '&apiKey=' + newsApiKey, {
-          method: 'get'
-        }).then(function (response) {
-          if (response.ok === true) {
-            response.json().then(function (data) {
-              data.articles.forEach(function (element) {
-                _this2.createNewsBlock(currentChannelBlock, element);
-              });
+    value: function getNews(channelId, okCallback, elseCallback) {
+      fetch(newsApiBaseAddress + '/v1/articles?source=' + channelId + '&apiKey=' + newsApiKey, { method: 'get' }).then(function (response) {
+        if (response.ok === true) {
+          response.json().then(function (data) {
+            data.articles.forEach(function (element) {
+              okCallback('#channel-' + channelId, element);
             });
-          } else {
-            _this2.createErrorBlock(currentChannelBlock);
-          }
-        }).catch(function (params) {
-          console.log('Error ' + params);
-        });
-      }
+          });
+        } else {
+          elseCallback('#channel-' + channelId);
+        }
+      }).catch(function (params) {
+        elseCallback('#channel-' + channelId);
+      });
+    }
+  }]);
+
+  return NewsApiService;
+}();
+
+/***/ }),
+/* 332 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var DomService = exports.DomService = function () {
+  function DomService() {
+    _classCallCheck(this, DomService);
+  }
+
+  _createClass(DomService, [{
+    key: 'createChannelItemBlock',
+    value: function createChannelItemBlock(parentContainerSelector, dataItem, actionOnClick) {
+      var parentContainer = document.querySelector(parentContainerSelector);
+      var childContainer = document.createElement('div');
+      childContainer.classList.add('item');
+      childContainer.classList.add('channel-item');
+      childContainer.onclick = function (event) {
+        return actionOnClick(event, dataItem);
+      };
+
+      var channelTitle = document.createElement('p');
+      channelTitle.innerText = dataItem.name;
+
+      var newElement = document.createElement('div');
+      newElement.id = 'channel-' + dataItem.id;
+
+      childContainer.appendChild(channelTitle);
+      childContainer.appendChild(newElement);
+
+      parentContainer.appendChild(childContainer);
     }
   }, {
     key: 'createNewsBlock',
-    value: function createNewsBlock(currentChannelBlock, element) {
+    value: function createNewsBlock(parentContainerSelector, dataItem) {
+      var parentContainer = document.querySelector(parentContainerSelector);
+
       var newElement = document.createElement("div");
       newElement.classList.add("item");
       newElement.classList.add("news-item");
@@ -10164,19 +10200,19 @@ var NewsService = exports.NewsService = function () {
       };
 
       var title = document.createElement("a");
-      title.innerHTML = element.title;
-      title.href = element.url;
+      title.innerHTML = dataItem.title;
+      title.href = dataItem.url;
       title.classList.add("news-title");
 
       var paragraph = document.createElement("p");
-      paragraph.innerHTML = element.description;
+      paragraph.innerHTML = dataItem.description;
       paragraph.classList.add("news-paragraph");
 
       var image = document.createElement("img");
-      image.setAttribute('src', element.urlToImage);
+      image.setAttribute('src', dataItem.urlToImage);
       image.onclick = function () {
         event.stopPropagation();
-        location.href = element.url;
+        location.href = dataItem.url;
       };
 
       image.classList.add("news-image");
@@ -10184,11 +10220,12 @@ var NewsService = exports.NewsService = function () {
       newElement.appendChild(title);
       newElement.appendChild(paragraph);
       newElement.appendChild(image);
-      currentChannelBlock.appendChild(newElement);
+      parentContainer.appendChild(newElement);
     }
   }, {
     key: 'createErrorBlock',
-    value: function createErrorBlock(currentChannelBlock) {
+    value: function createErrorBlock(currentChannelBlockSelector) {
+      var currentChannelBlock = document.querySelector(currentChannelBlockSelector);
       var newElement = document.createElement("div");
       newElement.classList.add("item");
       newElement.classList.add("news-item-error");
@@ -10198,7 +10235,7 @@ var NewsService = exports.NewsService = function () {
     }
   }]);
 
-  return NewsService;
+  return DomService;
 }();
 
 /***/ })

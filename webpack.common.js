@@ -9,7 +9,9 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'build'),
     publicPath: "/build",
-    "filename": "bundle.js"
+    "filename": "bundle.js",
+    libraryTarget: 'var',
+    library: 'EntryPoint'
   },
   module: {
     loaders: [

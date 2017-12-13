@@ -1,22 +1,30 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>News feed</title>
-  </head>
-  <body>
-    <h3 class="attribution-link">Powered by <a href="http://newsapi.org">News API</a></h4>
+
+<head>
+  <title>News feed</title>
+</head>
+
+<body>
+  <h3 class="attribution-link">Powered by
+    <a href="http://newsapi.org">News API</a>
+    </h4>
     <header class="header">
       <h1>Latest News</h1>
     </header>
-    
+    <div class="container">
+      <input type="button" class="button__show-news" value="Show Content" onclick="EntryPoint.init('#container')"/>
+    </div>
+
     <section class="content">
       <div class="container" id="container">
-        
+
       </div>
     </section>
 
     <footer class="footer">
       <script type="text/javaScript" src="./build/bundle.js"></script>
     </footer>
-  </body>
+</body>
+
 </html>

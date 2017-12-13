@@ -1,37 +1,16 @@
-import 'isomorphic-fetch';
-import { NewsApiService } from '../../core/news-api-service';
-import { DomService } from '../../core/dom-service';
+import { NewsComponent } from '../../shared-components/news/news.component';
 import './index.css';
 
-function init(containerSelector) {
-  let newsService = new NewsApiService();
-  let domService = new DomService();
+export function init(containerSelector) {
+  let buttonContainerBlock = document.querySelector(containerSelector);
 
-  var channels = newsService.getChannels(element => {
-    domService.createChannelItemBlock(
-      '#container',
-      element,
-      onChannelClickEvent
-    );
-  });
-}
-
-function onChannelClickEvent(event, element) {
-  let currentChannelBlock = document.querySelector(`#channel-${element.id}`);
-
-  if (currentChannelBlock.hasChildNodes()) {
-    while (currentChannelBlock.firstChild) {
-      currentChannelBlock.removeChild(currentChannelBlock.firstChild);
-    }
-  } else {
-    let newsService = new NewsApiService();
-    let domService = new DomService();
-    var news = newsService.getNews(
-      element.id,
-      domService.createNewsBlock,
-      domService.createErrorBlock
-    );
+  if (buttonContainerBlock.childElementCount !== 0) {
+    while (buttonContainerBlock.firstChild) {
+      buttonContainerBlock.removeChild(buttonContainerBlock.firstChild);
+    }   
+    return;
   }
-}
 
-init('#container');
+  let newsComponent = new NewsComponent();
+  newsComponent.create(containerSelector);
+}

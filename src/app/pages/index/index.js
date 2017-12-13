@@ -1,6 +1,7 @@
 import 'isomorphic-fetch';
 import { NewsApiService } from '../../core/news-api-service';
 import { DomService } from '../../core/dom-service';
+import './index.css';
 
 function init(containerSelector) {
   let newsService = new NewsApiService();

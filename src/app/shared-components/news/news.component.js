@@ -1,5 +1,5 @@
-import { NewsApiService } from '../../core/news-api-service';
-import { DomService } from '../../core/dom-service';
+import { NewsApiService } from '../../core';
+import { DomService } from '../../core';
 import './news.component.css';
 
 export class NewsComponent {
@@ -17,6 +17,11 @@ export class NewsComponent {
   }
 
   onChannelClickEvent(event, element) {
+    if (event.target.classList.value !== 'item channel-item') {
+        event.stopPropagation();
+        return;
+    }
+
     let currentChannelBlock = document.querySelector(`#channel-${element.id}`);
 
     if (currentChannelBlock.hasChildNodes()) {

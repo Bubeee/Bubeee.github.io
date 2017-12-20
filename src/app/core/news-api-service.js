@@ -1,5 +1,7 @@
-const newsApiKey = 'd59e89ef28f2495496fadd4aceef0a34';
-const newsApiBaseAddress = 'https://newsapi.org/';
+import {config} from './';
+
+const newsApiKey = config.newsApiKey;
+const newsApiBaseAddress = config.newsApiBaseAddress;
 
 export class NewsApiService {
   getChannels(callback) {

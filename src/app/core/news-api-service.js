@@ -1,4 +1,4 @@
-import {config} from './';
+import { config } from './';
 
 const newsApiKey = config.newsApiKey;
 const newsApiBaseAddress = config.newsApiBaseAddress;
@@ -18,7 +18,7 @@ export class NewsApiService {
     fetch(
       `${newsApiBaseAddress}/v1/articles?source=${channelId}&apiKey=${newsApiKey}`,
       { method: 'get' }
-  ) 
+    )
       .then(response => {
         if (response.ok === true) {
           response.json().then(data => {

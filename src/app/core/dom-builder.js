@@ -1,28 +1,23 @@
-export class DomService {
-  createChannelItemBlock(parentContainerSelector, dataItem, actionOnClick){
+export class DomBuilder {
+  createChannelItemBlock(parentContainerSelector, dataItem, actionOnClick) {
+    const innerHtml = `<div class='channel-item'>
+      <p>
+          ${dataItem.name}
+      </p>
+      <div id='channel-${dataItem.id}'></div>      
+    </div>`;
+
     let parentContainer = document.querySelector(parentContainerSelector);
-    let childContainer = document.createElement('div');
-    childContainer.classList.add('item');
-    childContainer.classList.add('channel-item');
-    childContainer.onclick = (event) => actionOnClick(event, dataItem);
+    parentContainer.insertAdjacentHTML('beforeend', innerHtml);
 
-    let channelTitle = document.createElement('p');
-    channelTitle.innerText = dataItem.name;
-
-    let newElement = document.createElement('div');
-    newElement.id = `channel-${dataItem.id}`;
-
-    childContainer.appendChild(channelTitle);
-    childContainer.appendChild(newElement);
-
-    parentContainer.appendChild(childContainer);
+    let childContainer = document.querySelector(`#channel-${dataItem.id}`).parentElement;
+    childContainer.onclick = event => actionOnClick(event, dataItem);
   }
-    
+
   createNewsBlock(parentContainerSelector, dataItem) {
     let parentContainer = document.querySelector(parentContainerSelector);
 
-    const innerHtml =
-        `<div class='item news-item'>
+    const innerHtml = `<div class='news-item'>
             <a target='_blank' href='${dataItem.url}' class='news-title'>
                 ${dataItem.title}
             </a>
@@ -33,39 +28,41 @@ export class DomService {
                 <img src='${dataItem.urlToImage}' class='news-image'>
             </a>
         </div>`;
- 
+
     // let title = document.createElement("a");
     // title.innerHTML = dataItem.title;
     // title.href = dataItem.url;
     // title.classList.add("news-title");
-  
+
     // let paragraph = document.createElement("p");
     // paragraph.innerHTML = dataItem.description;
     // paragraph.classList.add("news-paragraph");
-  
+
     // let image = document.createElement("img");
     // image.setAttribute('src', dataItem.urlToImage);
     // image.onclick = () => {
     //   event.stopPropagation();
     //   location.href = dataItem.url;
     // };
-  
+
     // image.classList.add("news-image");
-  
+
     // newElement.appendChild(title);
     // newElement.appendChild(paragraph);
     // newElement.appendChild(image);
     // parentContainer.appendChild(newElement);
-    parentContainer.insertAdjacentHTML('beforeend',innerHtml);
+    parentContainer.insertAdjacentHTML('beforeend', innerHtml);
   }
 
   createErrorBlock(currentChannelBlockSelector) {
-    let currentChannelBlock = document.querySelector(currentChannelBlockSelector);
-    let newElement = document.createElement("div");
-    newElement.classList.add("item");
-    newElement.classList.add("news-item-error");
-    newElement.innerHTML = 'Sorry, there is no news for this channel or some error is occured. Try again later.'
-    
-    currentChannelBlock.appendChild(newElement);
+    const innerHtml = `<div class='news-error'>
+      Sorry, there is no news for this channel or some error is occured. Try again later.
+    </div>`;
+
+    let currentChannelBlock = document.querySelector(
+      currentChannelBlockSelector
+    );
+
+    currentChannelBlock.insertAdjacentHTML('beforeend', innerHtml);
   }
 }

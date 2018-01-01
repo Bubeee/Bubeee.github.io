@@ -1,5 +1,5 @@
 import { NewsComponent } from '../../shared-components/news/news.component';
-import './index.css';
+import './index.scss';
 
 export function init(containerSelector) {
   let buttonContainerBlock = document.querySelector(containerSelector);

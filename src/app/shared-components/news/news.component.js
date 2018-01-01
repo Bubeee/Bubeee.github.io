@@ -1,14 +1,14 @@
 import { NewsApiService } from '../../core';
-import { DomService } from '../../core';
-import './news.component.css';
+import { DomBuilder } from '../../core';
+import './news.component.scss';
 
 export class NewsComponent {
   create(selector) {
     let newsService = new NewsApiService();
-    let domService = new DomService();
+    let domBuilder = new DomBuilder();
 
     var channels = newsService.getChannels(element => {
-      domService.createChannelItemBlock(
+      domBuilder.createChannelItemBlock(
         selector,
         element,
         this.onChannelClickEvent
@@ -17,24 +17,23 @@ export class NewsComponent {
   }
 
   onChannelClickEvent(event, element) {
-    if (event.target.classList.value !== 'item channel-item') {
-        event.stopPropagation();
-        return;
-    }
+    // if (event.target.classList.value !== 'channel-item') {
+    //     event.stopPropagation();
+    //     return;
+    // }
 
     let currentChannelBlock = document.querySelector(`#channel-${element.id}`);
-
     if (currentChannelBlock.hasChildNodes()) {
       while (currentChannelBlock.firstChild) {
         currentChannelBlock.removeChild(currentChannelBlock.firstChild);
       }
     } else {
       let newsService = new NewsApiService();
-      let domService = new DomService();
+      let domBuilder = new DomBuilder();
       var news = newsService.getNews(
         element.id,
-        domService.createNewsBlock,
-        domService.createErrorBlock
+        domBuilder.createNewsBlock,
+        domBuilder.createErrorBlock
       );
     }
   }

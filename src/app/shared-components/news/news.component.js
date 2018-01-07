@@ -1,10 +1,10 @@
-import { NewsApiService } from '../../core';
+import { NewsApiServiceProxy } from '../../core/services';
 import { DomBuilder } from '../../core';
 import './news.component.scss';
 
 export class NewsComponent {
   create(selector) {
-    let newsService = new NewsApiService();
+    let newsService = new NewsApiServiceProxy();
     let domBuilder = new DomBuilder();
 
     var channels = newsService.getChannels(element => {
@@ -28,7 +28,7 @@ export class NewsComponent {
         currentChannelBlock.removeChild(currentChannelBlock.firstChild);
       }
     } else {
-      let newsService = new NewsApiService();
+      let newsService = new NewsApiServiceProxy();
       let domBuilder = new DomBuilder();
       var news = newsService.getNews(
         element.id,

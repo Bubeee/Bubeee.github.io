@@ -1,4 +1,12 @@
 export class DomBuilder {
+  constructor() {
+    if(!DomBuilder.instance){
+      DomBuilder.instance = this;
+    }    
+
+    return DomBuilder.instance;
+  }
+
   createChannelItemBlock(parentContainerSelector, dataItem, actionOnClick) {
     const innerHtml = `<div class='channel-item'>
       <p>
@@ -51,6 +59,7 @@ export class DomBuilder {
     // newElement.appendChild(paragraph);
     // newElement.appendChild(image);
     // parentContainer.appendChild(newElement);
+    
     parentContainer.insertAdjacentHTML('beforeend', innerHtml);
   }
 

@@ -1,5 +1,5 @@
 import { NewsApiService } from './news-api-service';
-import { ChannelUpdateTimeRegistry } from '../channel-update-time-registry';
+import { ChannelUpdateTimeRegistry } from './channel-update-time-registry';
 import { config } from '../';
 
 const dayInMilliseconds = config.newsUpdatePeriodMillisec;
@@ -40,6 +40,7 @@ export class NewsApiServiceProxy extends NewsApiService {
       channelId
     );
 
+    // go to real api if there is no data or time has come
     if (
       !currentChannelNewsLastUpdateObject ||
       !currentChannelNewsLastUpdateObject.updateTime ||
@@ -63,14 +64,12 @@ export class NewsApiServiceProxy extends NewsApiService {
       });
     } else if (!currentChannelNewsLastUpdateObject.data) {
       elseCallback(`#channel-${channelId}`);
-    }
-
-    return (
+    } else {
       currentChannelNewsLastUpdateObject &&
-      currentChannelNewsLastUpdateObject.data &&
-      currentChannelNewsLastUpdateObject.data.forEach(element => {
-        okCallback(`#channel-${channelId}`, element);
-      })
-    );
+        currentChannelNewsLastUpdateObject.data &&
+        currentChannelNewsLastUpdateObject.data.forEach(element => {
+          okCallback(`#channel-${channelId}`, element);
+        });
+    }
   }
 }

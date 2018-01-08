@@ -1,7 +1,7 @@
 import { NewsComponent } from '../../shared-components/news/news.component';
 import './index.scss';
 
-export function init(containerSelector) {
+export const init = (containerSelector) => {
   let buttonContainerBlock = document.querySelector(containerSelector);
 
   if (buttonContainerBlock.childElementCount !== 0) {

@@ -1,5 +1,5 @@
 import { NewsApiServiceProxy } from '../../core/services';
-import { DomBuilder } from '../../core';
+import { DomBuilder } from '../../core/utils/dom-builder';
 import './news.component.scss';
 
 export class NewsComponent {
@@ -30,7 +30,7 @@ export class NewsComponent {
     } else {
       let newsService = new NewsApiServiceProxy();
       let domBuilder = new DomBuilder();
-      var news = newsService.getNews(
+      newsService.getNews(
         element.id,
         domBuilder.createNewsBlock,
         domBuilder.createErrorBlock

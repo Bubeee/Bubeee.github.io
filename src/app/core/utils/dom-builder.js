@@ -1,3 +1,5 @@
+import { $ } from './';
+
 export class DomBuilder {
   constructor() {
     if(!DomBuilder.instance){
@@ -15,15 +17,15 @@ export class DomBuilder {
       <div id='channel-${dataItem.id}'></div>      
     </div>`;
 
-    let parentContainer = document.querySelector(parentContainerSelector);
+    let parentContainer = $(parentContainerSelector);
     parentContainer.insertAdjacentHTML('beforeend', innerHtml);
 
-    let childContainer = document.querySelector(`#channel-${dataItem.id}`).parentElement;
+    let childContainer = $(`#channel-${dataItem.id}`).parentElement;
     childContainer.onclick = event => actionOnClick(event, dataItem);
   }
 
   createNewsBlock(parentContainerSelector, dataItem) {
-    let parentContainer = document.querySelector(parentContainerSelector);
+    let parentContainer = $(parentContainerSelector);
 
     const innerHtml = `<div class='news-item'>
             <a target='_blank' href='${dataItem.url}' class='news-title'>
@@ -68,9 +70,7 @@ export class DomBuilder {
       Sorry, there is no news for this channel or some error is occured. Try again later.
     </div>`;
 
-    let currentChannelBlock = document.querySelector(
-      currentChannelBlockSelector
-    );
+    let currentChannelBlock = $(currentChannelBlockSelector);
 
     currentChannelBlock.insertAdjacentHTML('beforeend', innerHtml);
   }

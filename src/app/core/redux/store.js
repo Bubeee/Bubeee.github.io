@@ -1,4 +1,4 @@
-const createStore = reducer => {
+export const createStore = reducer => {
   let state;
   let listeners = [];
 

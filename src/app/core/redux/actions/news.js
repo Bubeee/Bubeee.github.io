@@ -1,6 +1,9 @@
 import { REQUEST_NEWS, RECEIVE_NEWS } from '../constants/news';
 import { config } from '../..';
 
+const newsApiKey = config.newsApiKey;
+const newsApiBaseAddress = config.newsApiBaseAddress;
+
 export function requestNews(channel) {
   return {
     type: REQUEST_NEWS,
@@ -12,7 +15,12 @@ export function receiveNews(channel, json) {
   return {
     type: RECEIVE_NEWS,
     channel,
-    news: json.data.children.map(child => child.data),
+    news: json.articles.map(article => ({
+      title: article.title,
+      description: article.description,
+      url: article.url,
+      urlToImage: article.urlToImage
+    })),
     receivedAt: Date.now()
   };
 }

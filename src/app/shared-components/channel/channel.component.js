@@ -1,7 +1,7 @@
 import './channel.component.scss';
 
 export class ChannelComponent {
-  constructor({ channelId, channelTitle }) {
+  constructor(channelId, channelTitle) {
     this.channelId = channelId;
     this.channelTitle = channelTitle;
   }

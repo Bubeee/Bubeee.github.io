@@ -1,40 +1,26 @@
-import { NewsApiServiceProxy } from '../../core/services';
-import { DomBuilder } from '../../core/utils/dom-builder';
 import './news.component.scss';
 
 export class NewsComponent {
-  create(selector) {
-    let newsService = new NewsApiServiceProxy();
-    let domBuilder = new DomBuilder();
-
-    var channels = newsService.getChannels(element => {
-      domBuilder.createChannelItemBlock(
-        selector,
-        element,
-        this.onChannelClickEvent
-      );
-    });
+  constructor({ title, description, urlToSource, urlToImage }) {
+    this.title = title;
+    this.description = description;
+    this.urlToSource = urlToSource;
+    this.urlToImage = urlToImage;
   }
 
-  onChannelClickEvent(event, element) {
-    // if (event.target.classList.value !== 'channel-item') {
-    //     event.stopPropagation();
-    //     return;
-    // }
+  getHtml() {
+    const tempate = `<div class='news-item'>
+      <a target='_blank' href='${this.url}' class='news-title'>
+          ${this.title}
+      </a>
+      <p class='news-paragraph'>
+          ${this.description}
+      </p>
+      <a target='_blank' href='${this.urlToSource}'>
+          <img src='${this.urlToImage}' class='news-image'>
+      </a>
+    </div>`;
 
-    let currentChannelBlock = document.querySelector(`#channel-${element.id}`);
-    if (currentChannelBlock.hasChildNodes()) {
-      while (currentChannelBlock.firstChild) {
-        currentChannelBlock.removeChild(currentChannelBlock.firstChild);
-      }
-    } else {
-      let newsService = new NewsApiServiceProxy();
-      let domBuilder = new DomBuilder();
-      newsService.getNews(
-        element.id,
-        domBuilder.createNewsBlock,
-        domBuilder.createErrorBlock
-      );
-    }
+    return tempate;
   }
 }

@@ -1,7 +1,5 @@
-import { selectChannel } from './channels';
+import { channels } from './channels';
 import { newsByChannel } from './news';
-
-export default combineReducers({ selectChannel, newsByChannel });
 
 const combineReducers = reducers => {
   return (state = {}, action) => {
@@ -11,3 +9,6 @@ const combineReducers = reducers => {
     }, {});
   };
 };
+
+// export default combineReducers({ channels, newsByChannel });
+export default channels;

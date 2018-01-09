@@ -1,6 +1,6 @@
-import { REQUEST_NEWS, RECEIVE_NEWS } from "../constants/news";
+import { REQUEST_NEWS, RECEIVE_NEWS, INVALIDATE_NEWS } from "../constants/news";
 
-const news = (
+export const news = (
   state = {
     isFetching: false,
     didInvalidate: false,

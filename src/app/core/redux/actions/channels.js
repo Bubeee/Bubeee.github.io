@@ -1,20 +1,46 @@
-import { GET_CHANNELS, CLEAN_CHANNELS } from '../constants/channels'
+import {
+  REQUEST_CHANNELS,
+  RECEIVE_CHANNELS,
+  SELECT_CHANNEL
+} from '../constants/channels';
+import { config } from '../..';
 
-export function getChannels () {
-	return {
-		type: GET_CHANNELS,
-	}
-}
-
-export function cleanChannels () {
-	return {
-		type: CLEAN_CHANNELS,
-	}
-}
+const newsApiKey = config.newsApiKey;
+const newsApiBaseAddress = config.newsApiBaseAddress;
 
 export function selectChannel(channel) {
   return {
     type: SELECT_CHANNEL,
     channel
-  }
+  };
 }
+
+export function requestChannels() {
+  return {
+    type: REQUEST_CHANNELS
+  };
+}
+
+export const receiveChannels = json => {
+  return {
+    type: RECEIVE_CHANNELS,
+    channels: json.sources.map(ch => ({ channel: ch.name }))
+  };
+};
+
+export const fetchChannels = channel => {
+  return dispatch => {
+    dispatch(requestChannels());
+
+    return fetch(`${newsApiBaseAddress}/v2/sources?apiKey=${newsApiKey}`, {
+      method: 'get'
+    })
+      .then(
+        response => response.json(),
+        error => console.log('An error occurred.', error)
+      )
+      .then(json => {
+        dispatch(receiveChannels(json));
+      });
+  };
+};

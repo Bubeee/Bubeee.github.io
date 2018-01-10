@@ -1,18 +1,15 @@
-import { NewsComponent } from '../../shared-components/news/news.component';
-import { ChannelComponent } from '../../shared-components/channel/channel.component';
-import { DomBuilder, $ } from '../../core/utils';
-import reducers from '../../core/redux/reducers';
-import { createStore } from '../../core/redux/store';
+import { ChannelList } from './components/channels-list/channel-list';
+import reducers from '../../core/services/redux/reducers';
+import { createStore } from '../../core/services/redux/store';
 import {
   fetchNews,
   fetchChannels,
-  selectChannel,
-  requestChannels
-} from '../../core/redux/actions';
+  selectChannel
+} from '../../core/services/redux/actions';
 import { NewsApiServiceProxy } from '../../core/services';
 
 import './index.scss';
-import '../../shared-components/news/news.component.scss';
+import { ChannelList } from './components/channels-list/channel-list';
 
 const store = createStore(reducers);
 
@@ -35,60 +32,12 @@ export const init = containerSelector => {
 };
 
 const onChannelsReceived = () => {
-  let domBuilder = new DomBuilder();
   channels = store.getState().channels;
 
-  renderChannels(channels);
+  var channelsList = new ChannelList();
+  channelsList.renderChannels(channels);
 };
 
-const renderChannels = () => {
-  let container = $('#container');
-  if (container.hasChildNodes()) {
-    while (container.firstChild) {
-      container.removeChild(container.firstChild);
-    }
-  }
-
-  channels && channels.forEach(element => {
-    let channelBlock = new ChannelComponent(element, element);
-
-    let parentContainer = $('#container');
-    parentContainer.insertAdjacentHTML('beforeend', channelBlock.getHtml());
-    // let channelBlockOnAPage = $(`#channel-${element}`).parentElement;
-    // channelBlockOnAPage.onclick = event => actionOnClick(event, element);
-  });
-};
-
-const create = selector => {
-  let newsService = new NewsApiServiceProxy();
-  let domBuilder = new DomBuilder();
-  var channels = newsService.getChannels(element => {
-    domBuilder.createChannelItemBlock(
-      selector,
-      element,
-      this.onChannelClickEvent
-    );
-  });
-};
-
-const onChannelClickEvent = (event, element) => {
-  // if (event.target.classList.value !== 'channel-item') {
-  //     event.stopPropagation();
-  //     return;
-  // }
-
-  let currentChannelBlock = document.querySelector(`#channel-${element.id}`);
-  if (currentChannelBlock.hasChildNodes()) {
-    while (currentChannelBlock.firstChild) {
-      currentChannelBlock.removeChild(currentChannelBlock.firstChild);
-    }
-  } else {
-    let newsService = new NewsApiServiceProxy();
-    let domBuilder = new DomBuilder();
-    newsService.getNews(
-      element.id,
-      domBuilder.createNewsBlock,
-      domBuilder.createErrorBlock
-    );
-  }
+export const onChannelClick = channelId => {
+  store.dispatch(fetchNews(channelId)(store.dispatch));
 };

@@ -1,9 +1,10 @@
 import './channel.component.scss';
 
 export class ChannelComponent {
-  constructor(channelId, channelTitle) {
+  constructor(channelId, channelTitle, onClick) {
     this.channelId = channelId;
     this.channelTitle = channelTitle;
+    this.onClick = onClick;
   }
 
   getHtml() {

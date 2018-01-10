@@ -3,7 +3,7 @@ import {
   RECEIVE_CHANNELS,
   SELECT_CHANNEL
 } from '../constants/channels';
-import { config } from '../..';
+import { config } from '../../..';
 
 const newsApiKey = config.newsApiKey;
 const newsApiBaseAddress = config.newsApiBaseAddress;

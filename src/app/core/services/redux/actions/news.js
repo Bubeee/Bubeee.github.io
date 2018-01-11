@@ -29,15 +29,16 @@ export const fetchNews = channel => {
   return dispatch => {
     dispatch(requestNews(channel));
     return fetch(
-      `${newsApiBaseAddress}v1/articles?source=${channel.channelId}&apiKey=${newsApiKey}`,
+      `${newsApiBaseAddress}v1/articles?source=${
+        channel.channelId
+      }&apiKey=${newsApiKey}`,
       { method: 'get' }
     )
+      .then(response => response.json(), error => alert(error))
       .then(
-        response => response.json(),
-        error => console.log('An error occurred.', error)
-      )
-      .then(json => {
-        dispatch(receiveNews(channel, json));
-      });
+        json => {
+          json.articles && dispatch(receiveNews(channel, json));
+        }
+      );
   };
 };

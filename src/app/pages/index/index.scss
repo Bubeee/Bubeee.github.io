@@ -1,7 +1,16 @@
-.button__show-news{
+.button__show-news {
   font-weight: normal;
   border: 1px solid rgb(125, 134, 125);
   background: rgb(117, 216, 191);
   padding: 10px 0;
   width: 30%
+}
+
+.button__show-news:hover{
+  cursor: pointer;
+}
+
+.attribution-link {
+  margin: 0 auto;
+  text-align: center;
 }

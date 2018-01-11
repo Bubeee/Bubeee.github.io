@@ -17,6 +17,7 @@ let channels = [];
 
 export const init = containerSelector => {
   store.subscribe(onChannelsReceived);
+  store.subscribe(onNewsReceived);
   store.dispatch(fetchChannels()(store.dispatch));
   // store.dispatch(selectChannel('abc-news-au'));
   // store.dispatch(fetchNews('abc-news-au')(store.dispatch));
@@ -32,16 +33,14 @@ export const init = containerSelector => {
 
 const onChannelsReceived = () => {
   channels = store.getState().channels;
-  var channelsList = new ChannelList(store);
-  
-  if (channels) {
-    channelsList.renderChannels(channels);
+  let channelsList = new ChannelList(store);
+  channelsList.renderChannels(channels);
+};
 
-    let channelsWithNews = channels.filter(ch => ch.news);
-    channelsWithNews.map((channel) => {
-      if (channel.news) {
-        channelsList.renderNews(channel.channelId, channel.news);
-      }
-    });
+const onNewsReceived = () => {
+  let selectedChannel = store.getState()['selectedChannel'];
+  if (selectedChannel && selectedChannel.news) {
+    let channelsList = new ChannelList(store);
+    channelsList.renderNews(selectedChannel.channelId, selectedChannel.news);
   }
 };

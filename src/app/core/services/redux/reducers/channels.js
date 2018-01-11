@@ -10,7 +10,10 @@ import { news, newsByChannel } from './news';
 export const channels = (state = [], action) => {
   switch (action.type) {
     case SELECT_CHANNEL:
-      return action.channel;
+      return Object.assign({}, state, {
+        selectedChannel: action.channel
+      });
+
     case RECEIVE_CHANNELS:
       return Object.assign({}, state, {
         channels: action.channels

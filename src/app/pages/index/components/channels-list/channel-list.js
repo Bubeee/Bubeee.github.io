@@ -1,6 +1,6 @@
 import { ChannelComponent } from './channel';
 import '../news-list/news/news.component.scss';
-import { fetchNews } from '../../../../core/services/redux/actions';
+import { fetchNews, selectChannel } from '../../../../core/services/redux/actions';
 import { NewsComponent } from '../news-list/news';
 
 export class ChannelList {
@@ -69,6 +69,7 @@ export class ChannelList {
         currentChannelBlock.removeChild(currentChannelBlock.firstChild);
       }
     } else {
+      this.store.dispatch(selectChannel(channel));
       this.store.dispatch(fetchNews(channel)(this.store.dispatch));
     }
   }

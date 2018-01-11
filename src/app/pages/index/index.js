@@ -22,7 +22,6 @@ export const init = containerSelector => {
   // store.dispatch(fetchNews('abc-news-au')(store.dispatch));
 
   let buttonContainerBlock = document.querySelector(containerSelector);
-
   if (buttonContainerBlock.childElementCount !== 0) {
     while (buttonContainerBlock.firstChild) {
       buttonContainerBlock.removeChild(buttonContainerBlock.firstChild);
@@ -33,11 +32,16 @@ export const init = containerSelector => {
 
 const onChannelsReceived = () => {
   channels = store.getState().channels;
+  var channelsList = new ChannelList(store);
+  
+  if (channels) {
+    channelsList.renderChannels(channels);
 
-  var channelsList = new ChannelList();
-  channelsList.renderChannels(channels);
-};
-
-export const onChannelClick = channelId => {
-  store.dispatch(fetchNews(channelId)(store.dispatch));
+    let channelsWithNews = channels.filter(ch => ch.news);
+    channelsWithNews.map((channel) => {
+      if (channel.news) {
+        channelsList.renderNews(channel.channelId, channel.news);
+      }
+    });
+  }
 };

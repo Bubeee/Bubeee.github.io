@@ -1,10 +1,9 @@
 import './channel.component.scss';
 
 export class ChannelComponent {
-  constructor(channelId, channelTitle, onClick) {
+  constructor(channelId, channelTitle) {
     this.channelId = channelId;
     this.channelTitle = channelTitle;
-    this.onClick = onClick;
   }
 
   getHtml() {
@@ -16,5 +15,9 @@ export class ChannelComponent {
     </div>`;
 
     return template;
+  }
+
+  bindOnClickEvent(handler){
+    
   }
 }

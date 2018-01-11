@@ -28,9 +28,8 @@ export function receiveNews(channel, json) {
 export const fetchNews = channel => {
   return dispatch => {
     dispatch(requestNews(channel));
-
     return fetch(
-      `${newsApiBaseAddress}/v1/articles?source=${channel}&apiKey=${newsApiKey}`,
+      `${newsApiBaseAddress}v1/articles?source=${channel.channelId}&apiKey=${newsApiKey}`,
       { method: 'get' }
     )
       .then(

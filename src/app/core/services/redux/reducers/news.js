@@ -34,9 +34,8 @@ export const newsByChannel = (state = {}, action) => {
   switch (action.type) {
     case INVALIDATE_NEWS:
     case RECEIVE_NEWS:
-    case REQUEST_NEWS:
       return Object.assign({}, state, {
-        [action.channel]: news(state[action.channel], action)
+        news: action.news
       });
     default:
       return state;

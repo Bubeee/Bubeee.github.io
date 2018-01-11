@@ -1,7 +1,7 @@
 import './news.component.scss';
 
 export class NewsComponent {
-  constructor({ title, description, urlToSource, urlToImage }) {
+  constructor(title, description, urlToSource, urlToImage) {
     this.title = title;
     this.description = description;
     this.urlToSource = urlToSource;

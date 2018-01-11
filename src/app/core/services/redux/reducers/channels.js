@@ -5,24 +5,27 @@ import {
 } from '../constants/channels';
 import { REQUEST_NEWS, RECEIVE_NEWS, INVALIDATE_NEWS } from '../constants/news';
 
-import { news } from './';
+import { news, newsByChannel } from './news';
 
 export const channels = (state = [], action) => {
   switch (action.type) {
     case SELECT_CHANNEL:
       return action.channel;
     case RECEIVE_CHANNELS:
-      var channels = [];
-      for (const iterator of action.channels) {
-        channels.push(iterator.channel);
-      }
       return Object.assign({}, state, {
-        channels
+        channels: action.channels
       });
 
-    case REQUEST_NEWS:
     case RECEIVE_NEWS:
-      return state.map(n => newsByChannel(n, action));
+      let channelIndex = state.channels.findIndex(
+        el => el.channelId == action.channel.channelId
+      );
+
+      let channelState = newsByChannel(state.channels[channelIndex], action);
+      state.channels[channelIndex] = channelState;
+      return Object.assign({}, state, {
+        channels: state.channels
+      });
     default:
       return state;
   }

@@ -24,7 +24,7 @@ export function requestChannels() {
 export const receiveChannels = json => {
   return {
     type: RECEIVE_CHANNELS,
-    channels: json.sources.map(ch => ({ channel: ch.name }))
+    channels: json.sources.map(ch => ({ channelId: ch.id, channelName: ch.name }))
   };
 };
 
